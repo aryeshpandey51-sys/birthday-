@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Birthday 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at top, #2b2b3a, #0f0f14);
+    color: #f5f5f5;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+/* GLASS CARD */
+.card {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(15px);
+    border-radius: 22px;
+    padding: 35px;
+    margin: 50px auto;
+    max-width: 850px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+}
+
+/* HERO */
+.hero {
+    padding: 120px 20px 80px;
+}
+.hero h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: 3.6rem;
+    color: #ff9ecd;
+}
+.hero p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin-top: 12px;
+}
+
+/* BUTTON */
+button {
+    background: linear-gradient(135deg, #ff7eb3, #b28dff);
+    border: none;
+    color: white;
+    padding: 14px 28px;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: 0.3s;
+}
+button:hover {
+    transform: scale(1.07);
+}
+
+/* TEXT */
+h2 {
+    color: #ffd6ec;
+    margin-bottom: 15px;
+}
+
+/* CAKE */
+.cake {
+    font-size: 5.5rem;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* FOOTER */
+footer {
+    padding: 40px;
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+/* CONFETTI CANVAS */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 999;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<!-- MUSIC -->
+<audio id="music" loop>
+  <source src="Ikko-Mikke Title Track - Satinder Sartaaj.mp3" type="audio/mpeg">
+</audio>
+
+<section class="hero">
+    <h1>Happy Birthday, <span id="name">[Name]</span> 🎉</h1>
+    <p>Today isn’t just a day — it’s a reminder of how special you are ✨</p>
+    <button onclick="toggleMusic()">🎶 Play / Pause Music</button>
+</section>
+
+<div class="card">
+    <h2>💌 Just For You</h2>
+    <p id="message">
+        You have this rare ability to make moments feel lighter and hearts feel calmer.
+        Life genuinely feels better with you around — and I hope today reminds you
+        how deeply appreciated you are.
+    </p>
+</div>
+
+<div class="card">
+    <h2>🌟 Your Superpowers</h2>
+    <p>✨ Turning ordinary days into memories</p>
+    <p>✨ Making people laugh without trying</p>
+    <p>✨ Being strong even when you don’t show it</p>
+    <p>✨ That smile everyone secretly depends on</p>
+</div>
+
+<div class="card">
+    <h2>🎁 A Little Surprise</h2>
+    <button onclick="startConfetti()">Open your gift 🎁</button>
+    <p id="giftText" style="margin-top:15px;"></p>
+</div>
+
+<div class="card">
+    <h2>🎂 Make a Wish</h2>
+    <div class="cake" onclick="wish()">🎂🕯️</div>
+    <p id="wishText"></p>
+</div>
+
+<div class="card">
+    <h2>📜 For Your Soul</h2>
+    <p>
+        “Some people don’t just grow older — they grow more loved.”
+    </p>
+</div>
+
+<footer>
+    Made with ❤️ just for you<br>
+    — <span id="from">Your Name</span>
+</footer>
+
+<script>
+/* MUSIC */
+const music = document.getElementById("music");
+function toggleMusic() {
+    music.paused ? music.play() : music.pause();
+}
+
+/* CONFETTI */
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+let confetti = [];
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+function startConfetti() {
+    document.getElementById("giftText").innerText =
+        "🎊 Surprise! You are more loved than you realize 🎊";
+
+    for (let i = 0; i < 250; i++) {
+        confetti.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height - canvas.height,
+            r: Math.random() * 6 + 2,
+            d: Math.random() * 5 + 1,
+            color: `hsl(${Math.random() * 360}, 100%, 70%)`
+        });
+    }
+    animateConfetti();
+}
+
+function animateConfetti() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    confetti.forEach((c, i) => {
+        ctx.beginPath();
+        ctx.fillStyle = c.color;
+        ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+        ctx.fill();
+        c.y += c.d;
+        if (c.y > canvas.height) confetti.splice(i,1);
+    });
+    requestAnimationFrame(animateConfetti);
+}
+
+/* WISH */
+function wish() {
+    document.getElementById("wishText").innerText =
+        "✨ Your wish has been safely delivered to the universe 🌌";
+}
+</script>
+
+</body>
+</html>
